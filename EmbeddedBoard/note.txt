@@ -1,0 +1,63 @@
+void selectPattern() {
+    static unsigned long lastPatternChange = 0;
+    unsigned long currentTime = millis();
+
+    if (currentTime - lastPatternChange < 5000) {  // Change every 5 sec
+        return;  // Don't change too often
+    }
+
+    lastPatternChange = currentTime;  // Reset timer
+
+    if (bassLevel > 200) {
+        currentPattern = BASS_SPIKES;  // Sudden jumps when bass is strong
+    } 
+    else if (bpm > 120) {
+        currentPattern = BPM_SCANNING; // Fast beats → Scanning effect
+    } 
+    else if (melodyLevel > 150) {
+        currentPattern = INFINITY_LOOP; // High melody → Smooth figure 8
+    } 
+    else if (energyLevel > 300) {
+        currentPattern = STARBURST;  // High energy → Starburst effect
+    } 
+    else {
+        currentPattern = WAVEFORM_SWEEP;  // Default smooth movement
+    }
+}
+
+
+void updateLaser() {
+    selectPattern();
+
+    switch (currentPattern) {
+        case BASS_SPIKES:
+            servoX.write(random(0, 360));
+            servoY.write(random(30, 150));
+            break;
+
+        case BPM_SCANNING:
+            servoX.write(180 + 90 * sin(millis() * 0.002));
+            break;
+
+        case INFINITY_LOOP:
+            servoX.write(180 + 90 * sin(millis() * 0.002));
+            servoY.write(90 + 45 * sin(2 * millis() * 0.002));
+            break;
+
+        case STARBURST:
+            static int step = 0;
+            if (step < 8) {
+                servoX.write(180 + step * 30);
+                servoY.write(90 + step * 15);
+                step++;
+            } else {
+                step = 0;
+            }
+            break;
+
+        case WAVEFORM_SWEEP:
+            servoX.write(180 + 90 * sin(millis() * 0.002));
+            servoY.write(90 + 45 * cos(millis() * 0.002));
+            break;
+    }
+}

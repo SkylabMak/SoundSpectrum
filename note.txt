@@ -1,0 +1,10 @@
+g++ -o serial_arduino.exe main.cpp SerialComm.cpp -static
+serial_arduino.exe
+
+
+g++ main.cpp WasapiAudio.cpp -o audio_capture.exe -lole32 -lstdc++
+
+g++ main.cpp WasapiAudio.cpp LEDMatrixVisualizer.cpp FFTProcessor.cpp  -o test_fftw.exe -lfftw3 -lole32 -lstdc++
+
+g++ main.cpp WasapiAudio.cpp LEDMatrixVisualizer.cpp FFTProcessor.cpp SerialComm.cpp FrequencyAnalyzer.cpp -o test_fftw.exe -lfftw3 -lole32 -lstdc++
+g++ main.cpp WasapiAudio.cpp LEDMatrixVisualizer.cpp FFTProcessor.cpp SerialComm.cpp FrequencyAnalyzer.cpp -o test_fftw.exe -lfftw3 -lole32 -lstdc++ -lpthreads
