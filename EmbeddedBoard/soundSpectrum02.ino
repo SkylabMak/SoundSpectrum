@@ -96,6 +96,7 @@ void loop() {
   } else {
     digitalWrite(greenLED, LOW);
     digitalWrite(yellowLED, HIGH);
+    laser.update(lastPattern, lastBpm, currentTime);
 
     // Serial.println("no data: ");
     // Serial.print("run ");

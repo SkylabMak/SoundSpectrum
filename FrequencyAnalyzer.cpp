@@ -52,7 +52,7 @@ double FrequencyAnalyzer::getBPM()
         double energy = 0.0;
         for (int i = minBinBass; i <= maxBinBass; i++)
         {
-            energy += fft.first[i]; // ✅ Corrected: Access the vector inside the pair
+            energy += fft.first[i]; //  Corrected: Access the vector inside the pair
         }
         bassEnergy.push_back(energy);
     }
@@ -162,7 +162,7 @@ double FrequencyAnalyzer::computeAverage(const std::vector<double> &history) con
 {
     int validSize = std::min(historySize, historyCount);
     if (validSize == 0)
-        return 0; // ✅ Avoid division by zero
+        return 0; //  Avoid division by zero
     return std::accumulate(history.begin(), history.begin() + validSize, 0.0) / validSize;
 }
 
@@ -368,7 +368,7 @@ Pattern FrequencyAnalyzer::detectPattern(const std::vector<double> &fftResult)
     {
 
         std::cout << std::setw(10) << "SPEED";
-        return Pattern::BPM_SCANNING;
+        return Pattern::BPM_SCANNING; // 3
     }
     if (avgDynamicRange < 9 && avgTransients > 0.01 && avgTransients < 0.5 && vocalDetect) //"VOCAL"
     {
@@ -388,7 +388,6 @@ Pattern FrequencyAnalyzer::detectPattern(const std::vector<double> &fftResult)
     }
     if (avgTransients > 0.05 && avgPeakFreq > 300) //
     {
-
         std::cout << std::setw(10) << "Chill2";
         return Pattern::RANDOM_SWIRL; // 6
     }
